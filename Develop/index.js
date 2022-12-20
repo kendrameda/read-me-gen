@@ -2,11 +2,10 @@
 // 'fs', 'path', 'inquirer', './utils/generateMarkdown'
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateMarkdown = require('./generatemarkdown')
+const generateMarkdown = require('./utils/generateMarkdown').default
 
 // Array of questions for user input
-inquirer
-    .prompt([
+const questions = [
         
 
     {
@@ -65,10 +64,14 @@ inquirer
       name: 'repo',
     },
   
-])
+];
+
+
+inquirer
+.prompt(questions)
 .then((answers) => {
     const data = generateMarkdown(answers);
-    fs.writeFile('README.md', JSON.stringify(data, null, '\t'), (err) =>
+    fs.writeFile('README.md', generateMarkdown, (err)  =>
         err ? console.log(err) : console.log('success!')
     )
 })
