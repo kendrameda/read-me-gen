@@ -2,10 +2,36 @@
 // 'fs', 'path', 'inquirer', './utils/generateMarkdown'
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateMarkdown = require('./utils/generateMarkdown').default
+
 
 // Array of questions for user input
-const questions = [
+const generateReadMe = ({ username, email, project, description, license, install, test, usage, repo}) => 
+`
+# ${project} Read Me
+
+##description
+${description}
+
+## installation
+${install}
+
+## Usage
+${usage}
+
+##license
+This project uses ${license} for a license.
+
+##test
+${test}
+
+## My Socials
+github: ${username}
+email: ${email}
+Repo: ${repo}
+`
+
+inquirer
+    .prompt([
         
 
     {
@@ -64,37 +90,13 @@ const questions = [
       name: 'repo',
     },
   
-];
-
-
-inquirer
-.prompt(questions)
+])
 .then((answers) => {
-    const data = generateMarkdown(answers);
-    fs.writeFile('README.md', generateMarkdown, (err)  =>
-        err ? console.log(err) : console.log('success!')
+    const readmePageContent = generateReadMe(answers);
+    fs.writeFile('README.md', readmePageContent, (err) =>
+        err ? console.log(err) : console.log('successfully created ReadMe.md!')
     )
-})
+});
   
-  // Function to write README file using the user input
-//   function writeToFile(fileName, data) {
-  
-//     // TODO:
-//     // fs write function to create the README.md file
-//     // path package can be used to create the file path
-  
-//   }
-  
-  // Function to initialize app
-//   function init() {
-  
-    // TODO:
-    // call inquirer prompt method for questions
-    // inside .then callback
-    // call generateMarkdown passing answer object as input argument
-    // call writeFile passing file name and the returned value from generateMarkdown function as input arguments
-  
-//   }
-  
-//   init();
-  
+
+    
